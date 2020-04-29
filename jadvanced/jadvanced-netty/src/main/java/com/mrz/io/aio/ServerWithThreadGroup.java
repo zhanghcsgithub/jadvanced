@@ -21,21 +21,18 @@ public class ServerWithThreadGroup {
                 .bind(new InetSocketAddress(8888));
 
         serverChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
-            @Override
-            public void completed(AsynchronousSocketChannel client, Object attachment) {
+            public void completed(final AsynchronousSocketChannel client, Object attachment) {
                 serverChannel.accept(null, this);
                 try {
                     System.out.println(client.getRemoteAddress());
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
                     client.read(buffer, buffer, new CompletionHandler<Integer, ByteBuffer>() {
-                        @Override
                         public void completed(Integer result, ByteBuffer attachment) {
                             attachment.flip();
                             System.out.println(new String(attachment.array(), 0, result));
                             client.write(ByteBuffer.wrap("HelloClient".getBytes()));
                         }
 
-                        @Override
                         public void failed(Throwable exc, ByteBuffer attachment) {
                             exc.printStackTrace();
                         }
@@ -47,7 +44,6 @@ public class ServerWithThreadGroup {
                 }
             }
 
-            @Override
             public void failed(Throwable exc, Object attachment) {
                 exc.printStackTrace();
             }

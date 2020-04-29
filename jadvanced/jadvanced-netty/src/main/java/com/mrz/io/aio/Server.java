@@ -13,8 +13,7 @@ public class Server {
                 .bind(new InetSocketAddress(8888));
 
         serverChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
-            @Override
-            public void completed(AsynchronousSocketChannel client, Object attachment) {
+            public void completed(final AsynchronousSocketChannel client, Object attachment) {
                 serverChannel.accept(null, this);
                 try {
                     System.out.println(client.getRemoteAddress());
@@ -37,7 +36,6 @@ public class Server {
                 }
             }
 
-            @Override
             public void failed(Throwable exc, Object attachment) {
                 exc.printStackTrace();
             }
