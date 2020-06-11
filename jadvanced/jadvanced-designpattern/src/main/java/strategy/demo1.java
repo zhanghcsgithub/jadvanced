@@ -1,4 +1,4 @@
-package strategy.demo1;
+package strategy;
 
 public class demo1 {
 
